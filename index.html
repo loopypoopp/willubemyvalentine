@@ -98,7 +98,7 @@
         .container {
             max-width: 900px;
             width: 90%;
-            aspect-ratio: 2000 / 1421; /* Maintains original frame ratio */
+            aspect-ratio: 2000 / 1421; /* Maintains original frame ratio on desktop */
             position: relative;
             /* Using your frame as background */
             background: url('your-frame.png') center/contain no-repeat;
@@ -323,8 +323,11 @@
             
             .container {
                 width: 95%;
-                max-width: 500px;
-                padding: 7% 5%;
+                max-width: none; /* Remove max-width limit */
+                aspect-ratio: auto; /* Allow stretching on mobile */
+                min-height: 500px; /* Ensure minimum height */
+                background-size: 100% 100%; /* Stretch frame to fit */
+                padding: 60px 30px;
             }
             
             .frame-content {
@@ -338,12 +341,12 @@
             }
             
             .character {
-                max-width: 120px;
+                max-width: 140px;
                 margin: 15px 0;
             }
             
             .btn-image {
-                max-width: 150px;
+                max-width: 160px;
             }
             
             .buttons {
@@ -413,8 +416,10 @@
             
             .container {
                 width: 98%;
-                max-width: 380px;
-                padding: 6% 4%;
+                aspect-ratio: auto; /* Allow stretching */
+                min-height: 450px;
+                background-size: 100% 100%; /* Stretch frame */
+                padding: 50px 25px;
             }
             
             .frame-content {
@@ -422,18 +427,18 @@
             }
             
             .question {
-                font-size: 8px;
+                font-size: 9px;
                 line-height: 1.5;
                 margin: 8px 0 12px 0;
             }
             
             .character {
-                max-width: 100px;
+                max-width: 120px;
                 margin: 12px 0;
             }
             
             .btn-image {
-                max-width: 130px;
+                max-width: 140px;
             }
             
             .buttons {
@@ -460,12 +465,12 @@
             }
             
             .letter-content h2 {
-                font-size: 9px;
+                font-size: 10px;
                 margin-bottom: 12px;
             }
             
             .letter-content p {
-                font-size: 9px;
+                font-size: 10px;
                 margin-bottom: 10px;
                 line-height: 1.5;
             }
@@ -509,24 +514,32 @@
         /* Extra small phones */
         @media (max-width: 380px) {
             .container {
-                max-width: 340px;
-                padding: 5% 3%;
+                min-height: 400px;
+                padding: 45px 20px;
             }
             
             .question {
-                font-size: 7px;
+                font-size: 8px;
             }
             
             .character {
-                max-width: 80px;
+                max-width: 100px;
             }
             
             .btn-image {
-                max-width: 110px;
+                max-width: 120px;
             }
             
             .letter-content {
                 padding: 35px 20px;
+            }
+            
+            .letter-content h2 {
+                font-size: 9px;
+            }
+            
+            .letter-content p {
+                font-size: 9px;
             }
         }
     </style>
