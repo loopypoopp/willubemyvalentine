@@ -111,10 +111,21 @@
             justify-content: center;
         }
         
-        /* Better container sizing for tablets and phones */
-        @media (max-width: 900px) {
+        /* Better container sizing for tablets */
+        @media (max-width: 900px) and (min-width: 769px) {
             .container {
                 max-width: 700px;
+            }
+        }
+        
+        /* Remove aspect ratio on mobile - let it stretch */
+        @media (max-width: 768px) {
+            .container {
+                aspect-ratio: unset !important;
+                width: 95%;
+                height: auto;
+                min-height: 0;
+                background-size: 100% 100% !important; /* Force stretch */
             }
         }
         
@@ -322,16 +333,22 @@
             }
             
             .container {
-                width: 95%;
-                max-width: none; /* Remove max-width limit */
-                aspect-ratio: auto; /* Allow stretching on mobile */
-                min-height: 500px; /* Ensure minimum height */
-                background-size: 100% 100%; /* Stretch frame to fit */
+                width: 95% !important;
+                aspect-ratio: unset !important; /* Force remove aspect ratio */
+                max-width: none !important;
+                height: auto !important;
+                min-height: 0 !important;
+                background-size: 100% 100% !important; /* Stretch to fill */
                 padding: 60px 30px;
+                display: block; /* Change from flex */
             }
             
             .frame-content {
                 padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
             }
             
             .question {
@@ -352,6 +369,10 @@
             .buttons {
                 gap: 15px;
                 margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
             }
 
             .letter-content {
@@ -415,10 +436,10 @@
             }
             
             .container {
-                width: 98%;
-                aspect-ratio: auto; /* Allow stretching */
-                min-height: 450px;
-                background-size: 100% 100%; /* Stretch frame */
+                width: 98% !important;
+                aspect-ratio: unset !important;
+                height: auto !important;
+                background-size: 100% 100% !important;
                 padding: 50px 25px;
             }
             
@@ -514,7 +535,6 @@
         /* Extra small phones */
         @media (max-width: 380px) {
             .container {
-                min-height: 400px;
                 padding: 45px 20px;
             }
             
