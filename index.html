@@ -4,532 +4,307 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will you be my Valentine?</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+
+
     <style>
-        /* ============================================
-           🎨 YOUR CUSTOM DESIGN
-           ============================================ */
-        
-        :root {
-            --bg-color: #b8e6dc;
-            --dark-purple: #3d2645;
-            --light-mint: #d4f1eb;
-            --white: #ffffff;
-            --pink-light: #ffc4e1;
-            --pink-medium: #ff8ac9;
-            --pixel-font: 'Press Start 2P', 'Courier New', monospace;
-        }
-        
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ============================================
+   🎨 CUSTOM DESIGN
+============================================ */
 
-        body {
-            font-family: var(--pixel-font);
-            /* 🎨 YOUR BACKGROUND IMAGE */
-            background: url('background.png') center/cover no-repeat fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        /* Window controls */
-        .window-controls {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 15px;
-            z-index: 10;
-        }
-        
-        .control-btn {
-            width: 30px;
-            height: 30px;
-            background: var(--dark-purple);
-            border: none;
-            cursor: pointer;
-            image-rendering: pixelated;
-            position: relative;
-        }
-        
-        .minimize::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 6px;
-            bottom: 8px;
-            left: 5px;
-            background: var(--dark-purple);
-        }
-        
-        .maximize {
-            border: 4px solid var(--dark-purple);
-            background: transparent;
-        }
-        
-        .close::before,
-        .close::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 4px;
-            background: var(--dark-purple);
-            top: 13px;
-            left: 5px;
-        }
-        
-        .close::before {
-            transform: rotate(45deg);
-        }
-        
-        .close::after {
-            transform: rotate(-45deg);
-        }
+:root {
+    --bg-color: #b8e6dc;
+    --dark-purple: #3d2645;
+    --light-mint: #d4f1eb;
+    --white: #ffffff;
+    --pink-light: #ffc4e1;
+    --pink-medium: #ff8ac9;
+    --pixel-font: 'VT323', monospace;
+}
 
-        /* 🎨 YOUR FRAME IMAGE - Maintaining original aspect ratio */
-        .container {
-            max-width: 900px;
-            width: 90%;
-            aspect-ratio: 2000 / 1421; /* Maintains original frame ratio */
-            position: relative;
-            /* Using your frame as background */
-            background: url('your-frame.png') center/contain no-repeat;
-            padding: 8% 6%;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Better container sizing for tablets and phones */
-        @media (max-width: 900px) {
-            .container {
-                max-width: 700px;
-            }
-        }
-        
-        /* Content area */
-        .frame-content {
-            background: transparent;
-            padding: 20px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .question {
-            font-size: 16px;
-            margin: 20px 0 30px 0;
-            color: var(--dark-purple);
-            text-align: center;
-            line-height: 1.8;
-            letter-spacing: 1px;
-        }
+body {
+    font-family: var(--pixel-font);
+    background: url('background.png') center/cover no-repeat fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
 
-        /* 🎨 YOUR CHARACTER IMAGE */
-        .character {
-            max-width: 250px;
-            width: 100%;
-            height: auto;
-            margin: 30px 0;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
+/* Window controls */
+.window-controls {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 10;
+}
 
-        /* 🎨 YOUR BUTTON IMAGES */
-        .buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            width: 100%;
-        }
-        
-        .btn-image {
-            max-width: 250px;
-            width: 100%;
-            cursor: pointer;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-            transition: transform 0.2s;
-        }
-        
-        .btn-image:hover {
-            transform: translateY(-5px);
-        }
-        
-        .btn-image:active {
-            transform: translateY(0);
-        }
+.control-btn {
+    width: 30px;
+    height: 30px;
+    background: var(--dark-purple);
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
 
-        /* Letter Page */
-        .letter-page {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 20px;
-        }
+.minimize::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 6px;
+    bottom: 8px;
+    left: 5px;
+    background: var(--dark-purple);
+}
 
-        /* 🎨 YOUR LETTER FRAME IMAGE - Stretched to fit content */
-        .letter-content {
-            max-width: 700px;
-            width: 90%;
-            margin: 50px auto;
-            position: relative;
-            /* Using your letter frame as background - stretched to fit */
-            background: url('letter-frame.png') center/100% 100% no-repeat;
-            padding: 80px 60px;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-        
-        .letter-inner {
-            background: transparent;
-            padding: 20px;
-        }
+.maximize {
+    border: 4px solid var(--dark-purple);
+    background: transparent;
+}
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--dark-purple);
-            background: var(--white);
-            border: 3px solid var(--dark-purple);
-            font-family: var(--pixel-font);
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
+.close::before,
+.close::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 4px;
+    background: var(--dark-purple);
+    top: 13px;
+    left: 5px;
+}
 
-        .close-btn:hover {
-            background: var(--light-mint);
-        }
+.close::before { transform: rotate(45deg); }
+.close::after  { transform: rotate(-45deg); }
 
-        .letter-content h2 {
-            color: var(--dark-purple);
-            margin-bottom: 20px;
-            font-size: 18px;
-            font-family: var(--pixel-font);
-            text-align: center;
-        }
+/* ============================================
+   FRAME
+============================================ */
 
-        .letter-content p {
-            line-height: 1.8;
-            color: var(--dark-purple);
-            margin-bottom: 15px;
-            font-size: 14px;
-            font-family: 'Arial', sans-serif;
-        }
+.container {
+    max-width: 900px;
+    width: 90%;
+    aspect-ratio: 2000 / 1421;
+    position: relative;
+    background: url('your-frame.png') center/contain no-repeat;
+    padding: 8% 6%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        /* Fireworks Page */
-        .fireworks-page {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #b8e6dc 0%, #8dd4c7 100%);
-            z-index: 1000;
-            overflow: hidden;
-        }
+.frame-content {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 12px 25px;
-            background: var(--dark-purple);
-            color: var(--white);
-            border: none;
-            cursor: pointer;
-            font-family: var(--pixel-font);
-            font-size: 12px;
-            z-index: 1001;
-            image-rendering: pixelated;
-        }
+/* Text */
+.question {
+    font-size: 18px;
+    margin: 20px 0 25px 0;
+    color: var(--dark-purple);
+    text-align: center;
+    line-height: 1.6;
+}
 
-        .back-btn:hover {
-            background: var(--pink-medium);
-            color: var(--dark-purple);
-        }
+/* Character */
+.character {
+    max-width: 260px;
+    width: 100%;
+    margin: 25px 0;
+}
 
-        .message-bubble {
-            position: absolute;
-            background: var(--white);
-            padding: 15px 25px;
-            border: 4px solid var(--dark-purple);
-            font-family: var(--pixel-font);
-            font-weight: bold;
-            color: var(--dark-purple);
-            animation: float-up 3s ease-out forwards;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            white-space: nowrap;
-            font-size: 14px;
-            image-rendering: pixelated;
-        }
+/* Buttons */
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
 
-        @keyframes float-up {
-            0% {
-                transform: translateY(0) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-                transform: translateY(-50px) scale(1);
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-600px) scale(0.5);
-                opacity: 0;
-            }
-        }
+.btn-image {
+    max-width: 250px;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
 
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                width: 95%;
-                max-width: 500px;
-                padding: 7% 5%;
-            }
-            
-            .frame-content {
-                padding: 10px;
-            }
-            
-            .question {
-                font-size: 10px;
-                margin: 10px 0 15px 0;
-                line-height: 1.6;
-            }
-            
-            .character {
-                max-width: 120px;
-                margin: 15px 0;
-            }
-            
-            .btn-image {
-                max-width: 150px;
-            }
-            
-            .buttons {
-                gap: 15px;
-                margin-top: 20px;
-            }
+.btn-image:hover { transform: translateY(-5px); }
+.btn-image:active { transform: translateY(0); }
 
-            .letter-content {
-                width: 95%;
-                padding: 50px 30px;
-            }
-            
-            .letter-inner {
-                padding: 10px;
-            }
-            
-            .letter-content h2 {
-                font-size: 11px;
-                margin-bottom: 15px;
-            }
-            
-            .letter-content p {
-                font-size: 10px;
-                margin-bottom: 12px;
-            }
+/* ============================================
+   LETTER PAGE
+============================================ */
 
-            .message-bubble {
-                font-size: 8px;
-                padding: 8px 12px;
-            }
-            
-            .window-controls {
-                top: 10px;
-                right: 10px;
-                gap: 8px;
-            }
-            
-            .control-btn {
-                width: 20px;
-                height: 20px;
-            }
-            
-            .minimize::after {
-                width: 14px;
-                height: 4px;
-                bottom: 6px;
-                left: 3px;
-            }
-            
-            .maximize {
-                border: 3px solid var(--dark-purple);
-            }
-            
-            .close::before,
-            .close::after {
-                width: 14px;
-                height: 3px;
-                top: 8px;
-                left: 3px;
-            }
-        }
+.letter-page {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+}
 
-        @media (max-width: 480px) {
-            body {
-                padding: 5px;
-            }
-            
-            .container {
-                width: 98%;
-                max-width: 380px;
-                padding: 6% 4%;
-            }
-            
-            .frame-content {
-                padding: 8px;
-            }
-            
-            .question {
-                font-size: 8px;
-                line-height: 1.5;
-                margin: 8px 0 12px 0;
-            }
-            
-            .character {
-                max-width: 100px;
-                margin: 12px 0;
-            }
-            
-            .btn-image {
-                max-width: 130px;
-            }
-            
-            .buttons {
-                gap: 10px;
-                margin-top: 15px;
-            }
+.letter-content {
+    max-width: 700px;
+    width: 90%;
+    margin: 40px auto;
+    background: url('letter-frame.png') center/100% 100% no-repeat;
+    padding: 80px 60px;
+    position: relative;
+}
 
-            .letter-content {
-                width: 98%;
-                padding: 40px 25px;
-                margin: 15px auto;
-            }
-            
-            .letter-inner {
-                padding: 8px;
-            }
-            
-            .close-btn {
-                width: 28px;
-                height: 28px;
-                font-size: 12px;
-                top: 8px;
-                right: 8px;
-            }
-            
-            .letter-content h2 {
-                font-size: 9px;
-                margin-bottom: 12px;
-            }
-            
-            .letter-content p {
-                font-size: 9px;
-                margin-bottom: 10px;
-                line-height: 1.5;
-            }
-            
-            .message-bubble {
-                font-size: 7px;
-                padding: 6px 10px;
-            }
-            
-            .window-controls {
-                top: 8px;
-                right: 8px;
-                gap: 6px;
-            }
-            
-            .control-btn {
-                width: 18px;
-                height: 18px;
-            }
-            
-            .minimize::after {
-                width: 12px;
-                height: 3px;
-                bottom: 5px;
-                left: 3px;
-            }
-            
-            .maximize {
-                border: 2px solid var(--dark-purple);
-            }
-            
-            .close::before,
-            .close::after {
-                width: 12px;
-                height: 2px;
-                top: 7px;
-                left: 3px;
-            }
-        }
-        
-        /* Extra small phones */
-        @media (max-width: 380px) {
-            .container {
-                max-width: 340px;
-                padding: 5% 3%;
-            }
-            
-            .question {
-                font-size: 7px;
-            }
-            
-            .character {
-                max-width: 80px;
-            }
-            
-            .btn-image {
-                max-width: 110px;
-            }
-            
-            .letter-content {
-                padding: 35px 20px;
-            }
-        }
-    </style>
+.letter-inner { padding: 10px; }
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--dark-purple);
+    background: var(--white);
+    border: 3px solid var(--dark-purple);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.letter-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.letter-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   FIREWORKS
+============================================ */
+
+.fireworks-page {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #b8e6dc 0%, #8dd4c7 100%);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: var(--dark-purple);
+    color: var(--white);
+    border: none;
+    font-size: 14px;
+    z-index: 1001;
+}
+
+.message-bubble {
+    position: absolute;
+    background: var(--white);
+    padding: 12px 20px;
+    border: 3px solid var(--dark-purple);
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+    animation: float-up 3s ease-out forwards;
+}
+
+@keyframes float-up {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    10% { opacity: 1; transform: translateY(-40px) scale(1); }
+    90% { opacity: 1; }
+    100% { transform: translateY(-600px) scale(0.5); opacity: 0; }
+}
+
+/* ============================================
+   📱 MOBILE FIX (IMPORTANT PART)
+============================================ */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px;
+        background-attachment: scroll;
+    }
+
+    .container {
+        height: 85vh;      /* 👈 fills phone properly */
+        width: auto;
+        max-width: 95vw;
+        padding: 10% 7%;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-image {
+        width: 80%;
+        max-width: 220px;
+    }
+
+    .character {
+        max-width: 180px;
+    }
+
+    .question {
+        font-size: 16px;
+    }
+
+    .letter-content {
+        width: 95%;
+        padding: 60px 35px;
+    }
+
+    .letter-content h2 { font-size: 18px; }
+    .letter-content p  { font-size: 15px; }
+
+    .window-controls {
+        top: 15px;
+        right: 15px;
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 22px;
+        height: 22px;
+    }
+}
+</style>
+
 </head>
 <body>
     <!-- Window Controls -->
@@ -544,7 +319,8 @@
         <div class="frame-content">
             
             <div class="question">
-                Will you be my Valentine?
+                
+                
             </div>
 
             <!-- Character -->
@@ -564,13 +340,12 @@
         <div class="letter-content">
             <button class="close-btn" onclick="closeLetter()">X</button>
             <div class="letter-inner">
-                <h2>💕 My Dearest Valentine 💕</h2>
-                <p>I'm so happy you said yes!</p>
-                <p>From the moment I met you, I knew there was something special. Your smile lights up my world, and your laughter is my favorite sound.</p>
-                <p>Every day with you is an adventure, and I can't wait to create more beautiful memories together.</p>
-                <p>You make my heart skip a beat, and I'm so grateful to have you in my life.</p>
-                <p>Thank you for being my Valentine. Here's to us and all the wonderful moments ahead! 🌹</p>
-                <p style="text-align: right; margin-top: 30px; font-style: italic;">With all my love,<br>Your Valentine 💝</p>
+                <h2>💕 My Dearest Boyfriend 💕</h2>
+                <p>Cảm ơn anh vì 200 ngày qua đã luôn bên cạnh em, yêu thương em và nhẹ nhàng đối xử với em.</p>
+                <p>Em biết thời gian yêu xa khiến tụi mình buồn nhiều, cũng khiến mình phải nhớ nhau mà chẳng thể làm gì hơn ngoài việc đợi một cái tin nhắn cách hai cái màn hình. Nhưng dù thế nào thì em cũng tin rằng, trong lòng anh vẫn luôn có em ở đó. Cảm ơn anh vì đã yêu em nhiều như vậy.</p>
+                <p>Và em mong cho những cái hôn, những ôm chặt và sự dịu dàng dành cho nhau của chúng mình sẽ kéo dài mãi. Mong cho xuân hạ thu đông, từ lễ tình nhân cho đến giáng sinh của em đều có anh ở bên.</p>
+                <p>Em yêu anh nhiều lắm, mong là anh cũng sẽ mãi yêu em nhé!</p>
+                   <p style="text-align: right; margin-top: 30px; font-style: italic;">With all my love,<br>Your girlfriend 💝</p>
             </div>
         </div>
     </div>
@@ -597,21 +372,15 @@
             document.body.style.overflow = 'hidden';
             
             const messages = [
-                "I LOVE YOU! 💕",
-                "YOU'RE AMAZING! ✨",
-                "BEST DAY EVER! 🎉",
-                "YOU'RE THE ONE! 💖",
-                "FOREVER & ALWAYS! 💝",
-                "MY HEART IS YOURS! ❤️",
-                "YOU'RE PERFECT! 🌟",
-                "HAPPIEST PERSON! 😊",
-                "DREAM COME TRUE! 💫",
-                "YOU COMPLETE ME! 💗",
-                "SOULMATES! 💞",
-                "CRAZY ABOUT YOU! 🥰",
-                "YOU'RE MY SUNSHINE! ☀️",
-                "BLESSED TO HAVE YOU! 🙏",
-                "MY EVERYTHING! 💘"
+                "iu anh",
+                "nhớ anh",
+                "thương anh",
+                "iu anh nhất",
+                "iu anh nhất",
+                "iu anh nhất",
+                "iu anh nhất",
+                "iu anh nhất",              
+                "iu anh nhất"
             ];
 
             const interval = setInterval(() => {
@@ -621,7 +390,7 @@
                 
                 bubble.style.left = Math.random() * (window.innerWidth - 200) + 'px';
                 bubble.style.bottom = '0px';
-                bubble.style.animationDelay = Math.random() * 0.5 + 's';
+                bubble.style.animationDelay = Math.random() * 0.7 + 's';
                 
                 page.appendChild(bubble);
                 
