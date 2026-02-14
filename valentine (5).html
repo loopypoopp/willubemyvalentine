@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my Valentine?</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+
+
+    <style>
+        /* ============================================
+           🎨 CUSTOM DESIGN
+           ============================================ */
+        
+        :root {
+            --bg-color: #b8e6dc;
+            --dark-purple: #3d2645;
+            --light-mint: #d4f1eb;
+            --white: #ffffff;
+            --pink-light: #ffc4e1;
+            --pink-medium: #ff8ac9;
+            --pixel-font: 'VT323', monospace;
+        }
+        
+    
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--pixel-font);
+            /* 🎨 BACKGROUND IMAGE */
+            background: url('background.png') center/cover no-repeat fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Window controls */
+        .window-controls {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+        
+        .control-btn {
+            width: 30px;
+            height: 30px;
+            background: var(--dark-purple);
+            border: none;
+            cursor: pointer;
+            image-rendering: pixelated;
+            position: relative;
+        }
+        
+        .minimize::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 6px;
+            bottom: 8px;
+            left: 5px;
+            background: var(--dark-purple);
+        }
+        
+        .maximize {
+            border: 4px solid var(--dark-purple);
+            background: transparent;
+        }
+        
+        .close::before,
+        .close::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 4px;
+            background: var(--dark-purple);
+            top: 13px;
+            left: 5px;
+        }
+        
+        .close::before {
+            transform: rotate(45deg);
+        }
+        
+        .close::after {
+            transform: rotate(-45deg);
+        }
+
+        /* 🎨 FRAME IMAGE - Maintaining original aspect ratio */
+        .container {
+            max-width: 900px;
+            width: 90%;
+            aspect-ratio: 2000 / 1421; /* Maintains original frame ratio */
+            position: relative;
+            /* Using frame as background */
+            background: url('your-frame.png') center/contain no-repeat;
+            padding: 8% 6%;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Content area */
+        .frame-content {
+            background: transparent;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .question {
+            font-size: 16px;
+            margin: 20px 0 30px 0;
+            color: var(--dark-purple);
+            text-align: center;
+            line-height: 1.8;
+            letter-spacing: 1px;
+        }
+
+        /* 🎨 CHARACTER IMAGE */
+        .character {
+            max-width: 250px;
+            width: 100%;
+            height: auto;
+            margin: 30px 0;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        /* 🎨 BUTTON IMAGES */
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        
+        .btn-image {
+            max-width: 250px;
+            width: 100%;
+            cursor: pointer;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            transition: transform 0.2s;
+        }
+        
+        .btn-image:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-image:active {
+            transform: translateY(0);
+        }
+
+        /* Letter Page */
+        .letter-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* 🎨 LETTER FRAME IMAGE - Stretched to fit content */
+        .letter-content {
+            max-width: 700px;
+            width: 90%;
+            margin: 50px auto;
+            position: relative;
+            /* Using letter frame as background - stretched to fit */
+            background: url('letter-frame.png') center/100% 100% no-repeat;
+            padding: 80px 60px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        .letter-inner {
+            background: transparent;
+            padding: 20px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--dark-purple);
+            background: var(--white);
+            border: 3px solid var(--dark-purple);
+            font-family: var(--pixel-font);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            background: var(--light-mint);
+        }
+
+        .letter-content h2 {
+            color: var(--dark-purple);
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-family: var(--pixel-font);
+            text-align: center;
+        }
+
+        .letter-content p {
+            line-height: 1.8;
+            color: var(--dark-purple);
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-family: var(--pixel-font);
+        }
+
+        /* Fireworks Page */
+        .fireworks-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #b8e6dc 0%, #8dd4c7 100%);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 25px;
+            background: var(--dark-purple);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-family: var(--pixel-font);
+            font-size: 12px;
+            z-index: 1001;
+            image-rendering: pixelated;
+        }
+
+        .back-btn:hover {
+            background: var(--pink-medium);
+            color: var(--dark-purple);
+        }
+
+        .message-bubble {
+            position: absolute;
+            background: var(--white);
+            padding: 15px 25px;
+            border: 4px solid var(--dark-purple);
+            font-family: var(--pixel-font);
+            font-weight: bold;
+            color: var(--dark-purple);
+            animation: float-up 3s ease-out forwards;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            font-size: 14px;
+            image-rendering: pixelated;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-50px) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-600px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 6% 5%;
+            }
+            
+            .frame-content {
+                padding: 15px;
+            }
+            
+            .question {
+                font-size: 11px;
+                margin: 15px 0 20px 0;
+            }
+            
+            .character {
+                max-width: 150px;
+                margin: 20px 0;
+            }
+            
+            .btn-image {
+                max-width: 180px;
+            }
+
+            .letter-content {
+                width: 95%;
+                padding: 60px 40px;
+            }
+            
+            .letter-inner {
+                padding: 15px;
+            }
+            
+            .letter-content h2 {
+                font-size: 20px;
+            }
+            
+            .letter-content p {
+                font-size: 18px;
+            }
+
+            .message-bubble {
+                font-size: 9px;
+                padding: 8px 12px;
+            }
+            
+            .window-controls {
+                top: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+            
+            .control-btn {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 98%;
+                padding: 5% 4%;
+            }
+            
+            .question {
+                font-size: 9px;
+                line-height: 1.6;
+            }
+            
+            .character {
+                max-width: 120px;
+            }
+            
+            .btn-image {
+                max-width: 150px;
+            }
+            
+            .buttons {
+                gap: 12px;
+            }
+
+            .letter-content {
+                width: 98%;
+                padding: 50px 30px;
+                margin: 20px auto;
+            }
+            
+            .close-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+                top: 10px;
+                right: 10px;
+            }
+            
+            .letter-content h2 {
+                font-size: 20px;
+            }
+            
+            .letter-content p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Window Controls -->
+    <div class="window-controls">
+        <button class="control-btn minimize"></button>
+        <button class="control-btn maximize"></button>
+        <button class="control-btn close"></button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="frame-content">
+            
+            <div class="question">
+                
+                
+            </div>
+
+            <!-- Character -->
+            <img src="your-character.png" alt="Valentine Character" class="character">
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <img src="yes-button.png" alt="Yes" class="btn-image" onclick="showLetter()">
+                <img src="absolutely-button.png" alt="Why Not?" class="btn-image" onclick="showFireworks()">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Letter Page -->
+    <div class="letter-page" id="letterPage">
+        <div class="letter-content">
+            <button class="close-btn" onclick="closeLetter()">X</button>
+            <div class="letter-inner">
+                <h2>💕 My Dearest Boyfriend 💕</h2>
+                <p>Cảm ơn anh vì 200 ngày qua đã luôn bên cạnh em, yêu thương em và nhẹ nhàng đối xử với em.</p>
+                <p>Em biết thời gian yêu xa khiến tụi mình buồn nhiều, cũng khiến mình phải nhớ nhau mà chẳng thể làm gì hơn ngoài việc đợi một cái tin nhắn cách hai cái màn hình. Nhưng dù thế nào thì em cũng tin rằng, trong lòng anh vẫn luôn có em ở đó. Cảm ơn anh vì đã yêu em nhiều như vậy.</p>
+                <p>Và em mong cho những cái hôn, những ôm chặt và sự dịu dàng dành cho nhau của chúng mình sẽ kéo dài mãi. Mong cho xuân hạ thu đông, từ lễ tình nhân cho đến giáng sinh của em đều có anh ở bên.</p>
+                <p>Em yêu anh nhiều lắm, mong là anh cũng sẽ mãi yêu em nhé!</p>
+                   <p style="text-align: right; margin-top: 30px; font-style: italic;">With all my love,<br>Your girlfriend 💝</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fireworks Page -->
+    <div class="fireworks-page" id="fireworksPage">
+        <button class="back-btn" onclick="closeFireworks()">← BACK</button>
+    </div>
+
+    <script>
+        function showLetter() {
+            document.getElementById('letterPage').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLetter() {
+            document.getElementById('letterPage').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showFireworks() {
+            const page = document.getElementById('fireworksPage');
+            page.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            const messages = [
+                "iu anh",
+                "nhớ anh",
+                "thương anh",
+                "iu anh nhất",
+                "iu anh nhất",
+                "iu anh nhất",
+                "iu anh nhất",
+                "iu anh nhất",              
+                "iu anh nhất"
+            ];
+
+            const interval = setInterval(() => {
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+                
+                bubble.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+                bubble.style.bottom = '0px';
+                bubble.style.animationDelay = Math.random() * 0.7 + 's';
+                
+                page.appendChild(bubble);
+                
+                setTimeout(() => {
+                    if (bubble.parentNode) {
+                        bubble.remove();
+                    }
+                }, 3500);
+            }, 300);
+
+            page.dataset.intervalId = interval;
+        }
+
+        function closeFireworks() {
+            const page = document.getElementById('fireworksPage');
+            
+            if (page.dataset.intervalId) {
+                clearInterval(parseInt(page.dataset.intervalId));
+            }
+            
+            const bubbles = page.querySelectorAll('.message-bubble');
+            bubbles.forEach(bubble => bubble.remove());
+            
+            page.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLetter();
+                closeFireworks();
+            }
+        });
+    </script>
+</body>
+</html>
