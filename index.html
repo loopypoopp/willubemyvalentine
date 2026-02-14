@@ -98,7 +98,7 @@
         .container {
             max-width: 900px;
             width: 90%;
-            aspect-ratio: 2000 / 1421; /* Maintains original frame ratio on desktop */
+            aspect-ratio: 2000 / 1421; /* Maintains original frame ratio */
             position: relative;
             /* Using your frame as background */
             background: url('your-frame.png') center/contain no-repeat;
@@ -111,21 +111,10 @@
             justify-content: center;
         }
         
-        /* Better container sizing for tablets */
-        @media (max-width: 900px) and (min-width: 769px) {
+        /* Better container sizing for tablets and phones */
+        @media (max-width: 900px) {
             .container {
                 max-width: 700px;
-            }
-        }
-        
-        /* Remove aspect ratio on mobile - let it stretch */
-        @media (max-width: 768px) {
-            .container {
-                aspect-ratio: unset !important;
-                width: 95%;
-                height: auto;
-                min-height: 0;
-                background-size: 100% 100% !important; /* Force stretch */
             }
         }
         
@@ -333,22 +322,13 @@
             }
             
             .container {
-                width: 95% !important;
-                aspect-ratio: unset !important; /* Force remove aspect ratio */
-                max-width: none !important;
-                height: auto !important;
-                min-height: 0 !important;
-                background-size: 100% 100% !important; /* Stretch to fill */
-                padding: 60px 30px;
-                display: block; /* Change from flex */
+                width: 95%;
+                max-width: 500px;
+                padding: 7% 5%;
             }
             
             .frame-content {
                 padding: 10px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
             }
             
             .question {
@@ -358,21 +338,17 @@
             }
             
             .character {
-                max-width: 140px;
+                max-width: 120px;
                 margin: 15px 0;
             }
             
             .btn-image {
-                max-width: 160px;
+                max-width: 150px;
             }
             
             .buttons {
                 gap: 15px;
                 margin-top: 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
             }
 
             .letter-content {
@@ -436,11 +412,9 @@
             }
             
             .container {
-                width: 98% !important;
-                aspect-ratio: unset !important;
-                height: auto !important;
-                background-size: 100% 100% !important;
-                padding: 50px 25px;
+                width: 98%;
+                max-width: 380px;
+                padding: 6% 4%;
             }
             
             .frame-content {
@@ -448,18 +422,18 @@
             }
             
             .question {
-                font-size: 9px;
+                font-size: 8px;
                 line-height: 1.5;
                 margin: 8px 0 12px 0;
             }
             
             .character {
-                max-width: 120px;
+                max-width: 100px;
                 margin: 12px 0;
             }
             
             .btn-image {
-                max-width: 140px;
+                max-width: 130px;
             }
             
             .buttons {
@@ -486,12 +460,12 @@
             }
             
             .letter-content h2 {
-                font-size: 10px;
+                font-size: 9px;
                 margin-bottom: 12px;
             }
             
             .letter-content p {
-                font-size: 10px;
+                font-size: 9px;
                 margin-bottom: 10px;
                 line-height: 1.5;
             }
@@ -535,31 +509,24 @@
         /* Extra small phones */
         @media (max-width: 380px) {
             .container {
-                padding: 45px 20px;
+                max-width: 340px;
+                padding: 5% 3%;
             }
             
             .question {
-                font-size: 8px;
+                font-size: 7px;
             }
             
             .character {
-                max-width: 100px;
+                max-width: 80px;
             }
             
             .btn-image {
-                max-width: 120px;
+                max-width: 110px;
             }
             
             .letter-content {
                 padding: 35px 20px;
-            }
-            
-            .letter-content h2 {
-                font-size: 9px;
-            }
-            
-            .letter-content p {
-                font-size: 9px;
             }
         }
     </style>
